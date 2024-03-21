@@ -2,6 +2,7 @@ package com.example.home_work11
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.home_work11.databinding.ActivityMainBinding
 
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         prefs = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE)
         repository = Repository(this)
+
+        binding.editText.filters = arrayOf(InputFilter.LengthFilter(200))
 
         binding.saveButton.setOnClickListener {
             repository.saveText(binding.editText.text.toString())
