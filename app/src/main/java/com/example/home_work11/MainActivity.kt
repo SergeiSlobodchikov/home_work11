@@ -1,15 +1,40 @@
 package com.example.home_work11
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.home_work11.databinding.ActivityMainBinding
 
+private lateinit var repository: Repository
+
+
+private const val PREFERENCE_NAME = "prefs_name"
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var prefs: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        prefs = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE)
+        repository = Repository(this)
+
+        binding.saveButton.setOnClickListener {
+            repository.saveText(binding.editText.text.toString())
+            updateTextView()
+        }
+
+        binding.clearButton.setOnClickListener {
+            repository.clearText()
+            updateTextView()
+        }
+
+        updateTextView()
     }
+
+    private fun updateTextView() {
+        binding.textView.text = repository.getText()
+    }
+
 }
 
